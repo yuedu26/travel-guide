@@ -1643,7 +1643,14 @@ document.addEventListener('DOMContentLoaded', function() {
     markersData.forEach(function(m) {
       var icon = getIcon(m.name);
       var marker = L.marker([m.lat, m.lng], {icon: icon}).addTo(map);
-      marker.bindPopup('<strong>' + m.name + '</strong>');
+      // 去掉名称前面的emoji前缀，得到纯文本名称用于地图搜索
+      var cleanName = m.name.replace('🏨','').replace('🚇','').replace('📍','').replace('✈️','').trim();
+      var gmapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + m.lat + ',' + m.lng;
+      var amapsUrl = 'https://maps.apple.com/?ll=' + m.lat + ',' + m.lng + '&q=' + encodeURIComponent(cleanName);
+      var popupHtml = '<strong>' + m.name + '</strong><br>' +
+        '<a href="' + gmapsUrl + '" target="_blank" style="color:#0984e3;">📍 Google地图打开</a>　' +
+        '<a href="' + amapsUrl + '" target="_blank" style="color:#0984e3;">📍 Apple地图打开</a>';
+      marker.bindPopup(popupHtml);
     });
 
     if (markersData.length > 0) {
