@@ -255,6 +255,21 @@ details .detail-content { padding: 12px; }
   color: #e65100;
 }
 
+.place-click {
+  color: #0984e3;
+  cursor: pointer;
+  border-bottom: 1px dashed #0984e3;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.place-click:hover {
+  background: #e8f4fd;
+  border-bottom: 1px solid #0984e3;
+}
+.place-click:active {
+  background: #d0ebfb;
+}
+
 .backup-plan {
   background: #fff3e0;
   border: 1px solid #ffcc02;
@@ -884,12 +899,12 @@ details .detail-content { padding: 12px; }
       <p style="font-size:0.85em; color:var(--text-light);">
         方案1：KLIA Express到KL Sentral（30分钟）→ 转MRT到Bukit Bintang<br>
         方案2：Grab打车直达酒店（约¥50-70，45分钟）<br>
-        🏨 入住 <strong>Hotel Royal Signature</strong>
+        🏨 入住 <span class="place-click" data-place="🏨 Hotel Royal Signature"><strong>Hotel Royal Signature</strong></span>
       </p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">18:30-21:00</div>
-      <p>🍜 阿罗街（Jalan Alor）夜市晚餐</p>
+      <p>🍜 <span class="place-click" data-place="📍 阿罗街 Jalan Alor">阿罗街（Jalan Alor）</span>夜市晚餐</p>
       <p style="font-size:0.85em; color:var(--text-light);">步行可达。推荐：黄亚华烤鸡翅、沙爹、榴莲（9月尾声！）</p>
     </div>
     <div class="timeline-item">
@@ -943,17 +958,17 @@ details .detail-content { padding: 12px; }
   <div class="timeline">
     <div class="timeline-item">
       <div class="timeline-time">08:00-11:00</div>
-      <p>⛰️ <strong>黑风洞（Batu Caves）</strong></p>
+      <p>⛰️ <span class="place-click" data-place="📍 黑风洞 Batu Caves"><strong>黑风洞（Batu Caves）</strong></span></p>
       <p style="font-size:0.85em; color:var(--text-light);">从KL Sentral坐KTM火车30分钟 | 免费 | 注意猴子！</p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">11:30-13:00</div>
-      <p>🏮 <strong>茨厂街（Petaling Street）午餐</strong></p>
+      <p>🏮 <span class="place-click" data-place="📍 茨厂街 Petaling Street"><strong>茨厂街（Petaling Street）午餐</strong></span></p>
       <p style="font-size:0.85em; color:var(--text-light);">推荐新峰肉骨茶或金莲记福建面</p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">13:00-15:00</div>
-      <p>🏛️ <strong>独立广场 → 国家清真寺 → 老火车站</strong></p>
+      <p>🏛️ <span class="place-click" data-place="📍 独立广场"><strong>独立广场</strong></span> → <span class="place-click" data-place="📍 国家清真寺"><strong>国家清真寺</strong></span> → 老火车站</p>
       <p style="font-size:0.85em; color:var(--text-light);">步行可达 | 清真寺需脱鞋、穿长袖长裤</p>
     </div>
     <div class="timeline-item">
@@ -963,7 +978,7 @@ details .detail-content { padding: 12px; }
     </div>
     <div class="timeline-item">
       <div class="timeline-time">17:30-21:00</div>
-      <p>🌃 <strong>双子塔（KLCC）+ 晚餐</strong></p>
+      <p>🌃 <span class="place-click" data-place="📍 双子塔 KLCC"><strong>双子塔（KLCC）</strong></span> + 晚餐</p>
       <p style="font-size:0.85em; color:var(--text-light);">傍晚去看日落+夜景 | Suria KLCC商场美食层</p>
     </div>
   </div>
@@ -1018,20 +1033,20 @@ details .detail-content { padding: 12px; }
     <div class="timeline-item">
       <div class="timeline-time">15:30-16:30</div>
       <p>🚢 Butterworth → 渡轮 → George Town → 酒店</p>
-      <p style="font-size:0.85em; color:var(--text-light);">🏨 入住 <strong>Sunway Hotel Georgetown</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">🏨 入住 <span class="place-click" data-place="🏨 Sunway Hotel Georgetown"><strong>Sunway Hotel Georgetown</strong></span></p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">16:30-18:30</div>
-      <p>🎨 <strong>壁画街漫步</strong></p>
+      <p>🎨 <span class="place-click" data-place="📍 Armenian Street壁画"><strong>壁画街漫步</strong></span></p>
       <p style="font-size:0.85em; color:var(--text-light);">Armenian Street → 各种壁画打卡</p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">18:30-19:30</div>
-      <p>🌅 <strong>姓氏桥看日落</strong></p>
+      <p>🌅 <span class="place-click" data-place="📍 姓氏桥"><strong>姓氏桥看日落</strong></span></p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">19:30-21:00</div>
-      <p>🍜 <strong>New Lane夜市晚餐</strong></p>
+      <p>🍜 <span class="place-click" data-place="📍 New Lane夜市"><strong>New Lane夜市晚餐</strong></span></p>
       <p style="font-size:0.85em; color:var(--text-light);">炒粿条、煎蕊、叻沙</p>
     </div>
   </div>
@@ -1076,12 +1091,12 @@ details .detail-content { padding: 12px; }
   <div class="timeline">
     <div class="timeline-item">
       <div class="timeline-time">07:30-12:00</div>
-      <p>⛰️ <strong>升旗山（Penang Hill）</strong></p>
+      <p>⛰️ <span class="place-click" data-place="📍 升旗山 Penang Hill"><strong>升旗山（Penang Hill）</strong></span></p>
       <p style="font-size:0.85em; color:var(--text-light);">缆车6:30开始 | 门票RM30 | 建议一早去</p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">12:30-14:30</div>
-      <p>🛕 <strong>极乐寺（Kek Lok Si）</strong></p>
+      <p>🛕 <span class="place-click" data-place="📍 极乐寺 Kek Lok Si"><strong>极乐寺（Kek Lok Si）</strong></span></p>
       <p style="font-size:0.85em; color:var(--text-light);">从升旗山打车10分钟 | 门票RM2</p>
     </div>
     <div class="timeline-item">
@@ -1090,7 +1105,7 @@ details .detail-content { padding: 12px; }
     </div>
     <div class="timeline-item">
       <div class="timeline-time">17:00-19:00</div>
-      <p>🏛️ <strong>蓝屋 + George Town闲逛</strong></p>
+      <p>🏛️ <span class="place-click" data-place="📍 蓝屋 Blue Mansion"><strong>蓝屋</strong></span> + George Town闲逛</p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">19:00-21:00</div>
@@ -1161,7 +1176,7 @@ details .detail-content { padding: 12px; }
     </div>
     <div class="timeline-item">
       <div class="timeline-time">17:00+</div>
-      <p>🏨 入住 <strong>NH Bangkok Asoke</strong> → Terminal 21 → 按摩</p>
+      <p>🏨 入住 <span class="place-click" data-place="🏨 NH Bangkok Asoke"><strong>NH Bangkok Asoke</strong></span> → <span class="place-click" data-place="📍 Terminal 21">Terminal 21</span> → 按摩</p>
       <p style="font-size:0.85em; color:var(--text-light);">Terminal 21美食层超便宜 | 晚上做泰式按摩</p>
     </div>
   </div>
@@ -1210,11 +1225,11 @@ details .detail-content { padding: 12px; }
   <div class="timeline">
     <div class="timeline-item">
       <div class="timeline-time">08:00-11:00</div>
-      <p>👑 <strong>大皇宫 + 玉佛寺</strong></p>
+      <p>👑 <span class="place-click" data-place="📍 大皇宫 Grand Palace"><strong>大皇宫</strong></span> + 玉佛寺</p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">11:00-12:30</div>
-      <p>🛕 <strong>卧佛寺（Wat Pho）</strong></p>
+      <p>🛕 <span class="place-click" data-place="📍 卧佛寺 Wat Pho"><strong>卧佛寺（Wat Pho）</strong></span></p>
       <p style="font-size:0.85em; color:var(--text-light);">门票200泰铢 | 46米长卧佛</p>
     </div>
     <div class="timeline-item">
@@ -1223,12 +1238,12 @@ details .detail-content { padding: 12px; }
     </div>
     <div class="timeline-item">
       <div class="timeline-time">16:00-17:30</div>
-      <p>🌅 <strong>郑王庙（Wat Arun）</strong></p>
+      <p>🌅 <span class="place-click" data-place="📍 郑王庙 Wat Arun"><strong>郑王庙（Wat Arun）</strong></span></p>
       <p style="font-size:0.85em; color:var(--text-light);">渡轮过河5泰铢 | 门票100泰铢 | 傍晚最美</p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">18:00-21:00</div>
-      <p>🏮 <strong>唐人街（Yaowarat）晚餐</strong></p>
+      <p>🏮 <span class="place-click" data-place="📍 唐人街 Yaowarat"><strong>唐人街（Yaowarat）晚餐</strong></span></p>
       <p style="font-size:0.85em; color:var(--text-light);">T&K海鲜、粿条、芒果糯米饭</p>
     </div>
   </div>
@@ -1283,7 +1298,7 @@ details .detail-content { padding: 12px; }
     <div class="timeline-item">
       <div class="timeline-time">10:00-15:00</div>
       <p>🏛️ <strong>大城历史遗迹群</strong></p>
-      <p style="font-size:0.85em; color:var(--text-light);">玛哈泰寺（树抱佛头）、帕喜善佩寺、柴瓦塔那兰寺</p>
+      <p style="font-size:0.85em; color:var(--text-light);"><span class="place-click" data-place="📍 玛哈泰寺（树抱佛头）">玛哈泰寺（树抱佛头）</span>、<span class="place-click" data-place="📍 帕喜善佩寺">帕喜善佩寺</span>、<span class="place-click" data-place="📍 柴瓦塔那兰寺">柴瓦塔那兰寺</span></p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">17:00-18:00</div>
@@ -1330,7 +1345,7 @@ details .detail-content { padding: 12px; }
   <div class="timeline">
     <div class="timeline-item">
       <div class="timeline-time">09:00-12:00</div>
-      <p>🛍️ <strong>Chatuchak周末市场</strong></p>
+      <p>🛍️ <span class="place-click" data-place="📍 Chatuchak周末市场"><strong>Chatuchak周末市场</strong></span></p>
       <p style="font-size:0.85em; color:var(--text-light);">BTS Mo Chit站 | 15000+摊位 | 注意防扒手</p>
     </div>
     <div class="timeline-item">
@@ -1340,7 +1355,7 @@ details .detail-content { padding: 12px; }
     <div class="timeline-item">
       <div class="timeline-time">14:00-18:00</div>
       <p>🏬 <strong>Siam商圈购物</strong></p>
-      <p style="font-size:0.85em; color:var(--text-light);">Siam Paragon、CentralWorld、MBK Center</p>
+      <p style="font-size:0.85em; color:var(--text-light);"><span class="place-click" data-place="📍 Siam Paragon">Siam Paragon</span>、<span class="place-click" data-place="📍 CentralWorld">CentralWorld</span>、MBK Center</p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">18:00-19:00</div>
@@ -1425,7 +1440,7 @@ details .detail-content { padding: 12px; }
     </div>
     <div class="timeline-item">
       <div class="timeline-time">15:00-18:00</div>
-      <p>🛃 廊曼机场办理登机 + 免税店</p>
+      <p>🛃 <span class="place-click" data-place="✈️ 廊曼机场 DMK">廊曼机场</span>办理登机 + 免税店</p>
       <p style="font-size:0.85em; color:var(--text-light);">廊曼机场免税店不大，可以逛逛</p>
     </div>
     <div class="timeline-item">
@@ -1596,6 +1611,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }, { passive: true });
   
   // 地图初始化
+  var mapRegistry = {}; // 按 dayId 保存地图实例和标记索引
   var mapContainers = document.querySelectorAll('.leaflet-map');
   mapContainers.forEach(function(container) {
     var lat = parseFloat(container.getAttribute('data-lat'));
@@ -1605,6 +1621,10 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
       markersData = JSON.parse(container.getAttribute('data-markers') || '[]');
     } catch(e) { markersData = []; }
+
+    // 通过父级 .card 的 id 识别是第几天
+    var dayCard = container.closest('.card');
+    var dayId = dayCard ? dayCard.id : ('map-' + mapContainers.length);
 
     var map = L.map(container, { scrollWheelZoom: false }).setView([lat, lng], zoom);
 
@@ -1640,6 +1660,9 @@ document.addEventListener('DOMContentLoaded', function() {
       return defaultIcon;
     }
 
+    // 保存当前地图的标记索引
+    mapRegistry[dayId] = { map: map, markers: {} };
+
     markersData.forEach(function(m) {
       var icon = getIcon(m.name);
       var marker = L.marker([m.lat, m.lng], {icon: icon}).addTo(map);
@@ -1651,6 +1674,8 @@ document.addEventListener('DOMContentLoaded', function() {
         '<a href="' + gmapsUrl + '" target="_blank" style="color:#0984e3;">📍 Google地图打开</a>　' +
         '<a href="' + amapsUrl + '" target="_blank" style="color:#0984e3;">📍 Apple地图打开</a>';
       marker.bindPopup(popupHtml);
+      // 保存标记索引（用完整名称作为key）
+      mapRegistry[dayId].markers[m.name] = marker;
     });
 
     if (markersData.length > 0) {
@@ -1661,6 +1686,28 @@ document.addEventListener('DOMContentLoaded', function() {
       );
       map.fitBounds(group.getBounds().pad(0.2));
     }
+  });
+
+  // 时间线地点点击：地图高亮对应标记，弹出带导航链接的弹窗
+  document.querySelectorAll('.place-click').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+      e.preventDefault();
+      var dayCard = el.closest('.card');
+      var dayId = dayCard ? dayCard.id : null;
+      var placeName = el.getAttribute('data-place');
+      if (!dayId || !mapRegistry[dayId]) return;
+      var reg = mapRegistry[dayId];
+      var marker = reg.markers[placeName];
+      if (!marker) return;
+      // 地图移动到该标记并放大，打开弹窗（弹窗内含Google/Apple导航链接）
+      reg.map.setView(marker.getLatLng(), Math.max(reg.map.getZoom(), 15));
+      marker.openPopup();
+      // 滚动到地图区域方便查看
+      var mapEl = dayCard ? dayCard.querySelector('.leaflet-map') : null;
+      if (mapEl && mapEl.scrollIntoView) {
+        mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
   });
 });
 </script>
