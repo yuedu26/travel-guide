@@ -1657,6 +1657,36 @@ document.addEventListener('DOMContentLoaded', function() {
     lastScrollY = currentScrollY;
   }, { passive: true });
   
+  // 每个 day 对应的城市（用于跳转搜索时附加城市限定，避免重名）
+  var cityByDay = {
+    'day1': 'Kuala Lumpur',
+    'day2': 'Kuala Lumpur',
+    'day3': 'Penang',
+    'day4': 'Penang',
+    'day5': 'Bangkok',
+    'day6': 'Bangkok',
+    'day7': 'Ayutthaya',
+    'day8': 'Bangkok',
+    'day9': 'Bangkok'
+  };
+
+  // 特殊地点的精确英文搜索名（机场/火车站/码头等，用英文更准确）
+  var searchOverride = {
+    '✈️ 吉隆坡国际机场 KLIA': 'Kuala Lumpur International Airport',
+    '✈️ 槟城机场 PEN': 'Penang International Airport',
+    '✈️ 曼谷素万那普机场 BKK': 'Suvarnabhumi Airport Bangkok',
+    '✈️ 廊曼机场 DMK': 'Don Mueang International Airport Bangkok',
+    '🚉 KL Sentral': 'KL Sentral Kuala Lumpur',
+    '🚉 Butterworth火车站': 'Butterworth Railway Station Penang',
+    '⛴️ 槟城渡轮码头': 'Swettenham Pier Penang',
+    '🚇 Bukit Bintang MRT站': 'Bukit Bintang MRT Station Kuala Lumpur',
+    '🚇 Bukit Bintang Monorail站': 'Bukit Bintang Monorail Station Kuala Lumpur',
+    '🚇 BTS Asok站': 'Asok BTS Station Bangkok',
+    '🚇 MRT Sukhumvit站': 'Sukhumvit MRT Station Bangkok',
+    '🚇 BTS Mo Chit站': 'Mo Chit BTS Station Bangkok',
+    '🚇 BTS Siam站': 'Siam BTS Station Bangkok'
+  };
+
   // 地图初始化
   var mapRegistry = {}; // 按 dayId 保存地图实例和标记索引
   var mapContainers = document.querySelectorAll('.leaflet-map');
@@ -1742,11 +1772,12 @@ document.addEventListener('DOMContentLoaded', function() {
     markersData.forEach(function(m) {
       var icon = getIcon(m.name);
       var marker = L.marker([m.lat, m.lng], {icon: icon}).addTo(map);
-      // 去掉名称前面的emoji前缀，得到纯文本名称用于地图搜索
+      // 去掉名称前面的emoji前缀，得到纯文本名称
       var cleanName = m.name.replace('🏨','').replace('🚇','').replace('📍','').replace('✈️','').replace('🚉','').replace('⛴️','').trim();
-      // 用名称搜索跳转（让地图APP自己精确定位，不依赖手填坐标）
-      var gmapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(cleanName);
-      var amapsUrl = 'https://maps.apple.com/?q=' + encodeURIComponent(cleanName);
+      // 生成精确搜索名：特殊地点用英文名，其他用"名称+城市"避免重名
+      var searchName = searchOverride[m.name] || (cleanName + ' ' + (cityByDay[dayId] || ''));
+      var gmapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(searchName);
+      var amapsUrl = 'https://maps.apple.com/?q=' + encodeURIComponent(searchName);
       var popupHtml = '<strong>' + m.name + '</strong><br>' +
         '<a href="' + gmapsUrl + '" target="_blank" style="color:#0984e3;">📍 Google地图打开</a>　' +
         '<a href="' + amapsUrl + '" target="_blank" style="color:#0984e3;">📍 Apple地图打开</a>';
