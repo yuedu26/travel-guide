@@ -208,16 +208,33 @@ details .detail-content { padding: 12px; }
 
 .checklist { list-style: none; }
 .checklist li {
-  padding: 5px 0 5px 24px;
-  position: relative;
+  padding: 4px 0;
   font-size: 0.95em;
 }
-.checklist li::before {
-  content: '☐';
-  position: absolute;
-  left: 4px;
-  color: var(--success);
-  font-size: 1em;
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  padding: 4px 0;
+  line-height: 1.5;
+}
+.big-check {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  margin-top: 1px;
+  accent-color: #00b894;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.check-item span {
+  flex: 1;
+}
+.check-item input:checked + span {
+  color: #9aa0a6;
+  text-decoration: line-through;
 }
 
 .grid-2 {
@@ -1588,6 +1605,36 @@ details .detail-content { padding: 12px; }
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // 把 checklist 的 li 自动转换成可勾选的大复选框（含嵌套子项处理）
+  document.querySelectorAll('.checklist > li').forEach(function(li) {
+    var nestedUl = li.querySelector('ul');
+    if (nestedUl) {
+      // 含嵌套子列表的父项：文本部分包进 label，子列表保持在外面
+      var label = document.createElement('label');
+      label.className = 'check-item';
+      var checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'big-check';
+      var span = document.createElement('span');
+      while (li.firstChild && li.firstChild !== nestedUl) {
+        span.appendChild(li.firstChild);
+      }
+      label.appendChild(checkbox);
+      label.appendChild(span);
+      li.insertBefore(label, nestedUl);
+      // 子项也加 checkbox
+      nestedUl.querySelectorAll('li').forEach(function(sub) {
+        if (!sub.querySelector('ul')) {
+          var t = sub.innerHTML;
+          sub.innerHTML = '<label class="check-item"><input type="checkbox" class="big-check"><span>' + t + '</span></label>';
+        }
+      });
+    } else {
+      var text = li.innerHTML;
+      li.innerHTML = '<label class="check-item"><input type="checkbox" class="big-check"><span>' + text + '</span></label>';
+    }
+  });
+
   // 导航栏自动收起逻辑
   var navToc = document.querySelector('.nav-toc');
   var lastScrollY = window.scrollY;
