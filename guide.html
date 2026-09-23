@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🇲🇾🇹🇭 马来西亚+泰国 9天8晚旅游攻略 v3</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root {
+  --my-color: #010066;
+  --my-light: #e8e8f0;
+  --th-color: #a50034;
+  --th-light: #fce8ee;
+  --accent: #ff6b35;
+  --bg: #f8f9fa;
+  --card: #ffffff;
+  --text: #2d3436;
+  --text-light: #636e72;
+  --border: #dfe6e9;
+  --success: #00b894;
+  --warning: #fdcb6e;
+  --danger: #d63031;
+  --info: #0984e3;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+  font-size: 15px;
+}
+h1 { font-size: 1.6em; text-align: center; margin: 16px 0; }
+h2 { font-size: 1.3em; margin: 24px 0 12px; padding-bottom: 6px; border-bottom: 3px solid var(--accent); }
+h3 { font-size: 1.1em; margin: 16px 0 8px; color: var(--info); }
+h4 { font-size: 1em; margin: 12px 0 6px; }
+
+.overview-banner {
+  background: linear-gradient(135deg, #0077b6 0%, #00b4d8 50%, #90e0ef 100%);
+  color: white;
+  padding: 20px 16px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 119, 182, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.overview-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><linearGradient id="waves" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23ffffff;stop-opacity:0.15" /><stop offset="100%" style="stop-color:%23ffffff;stop-opacity:0.05" /></linearGradient></defs><path d="M0,300 Q300,250 600,300 T1200,300 L1200,600 L0,600 Z" fill="url(%23waves)"/><path d="M0,350 Q300,300 600,350 T1200,350 L1200,600 L0,600 Z" fill="url(%23waves)" opacity="0.5"/><path d="M0,400 Q300,350 600,400 T1200,400 L1200,600 L0,600 Z" fill="url(%23waves)" opacity="0.3"/></svg>') no-repeat center bottom;
+  background-size: cover;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.overview-banner h1,
+.overview-banner .subtitle,
+.overview-banner div {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.overview-banner h1 { color: white; margin: 0 0 8px; font-size: 1.5em; }
+.overview-banner .subtitle { font-size: 1em; opacity: 0.9; }
+
+.card {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 16px;
+  margin: 12px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+}
+.card-my { border-left: 4px solid var(--my-color); }
+.card-th { border-left: 4px solid var(--th-color); }
+.card-warn { border-left: 4px solid var(--danger); background: #fff5f5; }
+.card-tip { border-left: 4px solid var(--success); background: #f0fff4; }
+.card-info { border-left: 4px solid var(--info); background: #f0f8ff; }
+.card-hotel { border-left: 4px solid var(--accent); background: #fff8f0; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 0.9em;
+}
+th, td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+th {
+  background: var(--bg);
+  font-weight: 600;
+}
+tr:hover { background: #f8f9fa; }
+
+.tag {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.75em;
+  font-weight: 600;
+  margin: 1px;
+}
+.tag-my { background: var(--my-light); color: var(--my-color); }
+.tag-th { background: var(--th-light); color: var(--th-color); }
+.tag-green { background: #d4edda; color: #155724; }
+.tag-yellow { background: #fff3cd; color: #856404; }
+.tag-red { background: #f8d7da; color: #721c24; }
+.tag-blue { background: #d1ecf1; color: #0c5460; }
+.tag-hotel { background: #fff3e0; color: #e65100; }
+
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+  border-radius: 2px;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border-radius: 6px;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 14px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.timeline-time {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.85em;
+}
+
+details {
+  margin: 8px 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+details summary {
+  padding: 10px 12px;
+  background: var(--bg);
+  cursor: pointer;
+  font-weight: 600;
+  user-select: none;
+  font-size: 0.95em;
+}
+details summary:hover { background: #eee; }
+details[open] summary { border-bottom: 1px solid var(--border); }
+details .detail-content { padding: 12px; }
+
+.map-container {
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 12px 0;
+  border: 1px solid var(--border);
+}
+.map-container .leaflet-map {
+  width: 100%;
+  height: 250px;
+}
+.map-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+.map-link {
+  display: inline-block;
+  padding: 4px 8px;
+  background: var(--info);
+  color: white;
+  border-radius: 3px;
+  text-decoration: none;
+  font-size: 0.8em;
+}
+.map-link:hover { opacity: 0.85; }
+
+.checklist { list-style: none; }
+.checklist li {
+  padding: 5px 0 5px 24px;
+  position: relative;
+  font-size: 0.95em;
+}
+.checklist li::before {
+  content: '☐';
+  position: absolute;
+  left: 4px;
+  color: var(--success);
+  font-size: 1em;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.food-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 6px;
+  margin: 8px 0;
+}
+.food-item {
+  padding: 6px 10px;
+  background: #fff8e1;
+  border-radius: 5px;
+  font-size: 0.85em;
+}
+
+.restaurant-list {
+  margin: 10px 0;
+  padding: 0;
+}
+.restaurant-item {
+  padding: 8px 12px;
+  margin: 6px 0;
+  background: #fff8e1;
+  border-left: 3px solid #ff9800;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.restaurant-item strong {
+  color: #e65100;
+}
+
+.backup-plan {
+  background: #fff3e0;
+  border: 1px solid #ffcc02;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 8px 0;
+}
+.backup-plan h4 { color: #e65100; margin-bottom: 6px; }
+
+.nav-toc {
+  position: sticky;
+  top: 8px;
+  background: white;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 16px;
+  z-index: 100;
+}
+.nav-toc summary { font-weight: 700; font-size: 1em; cursor: pointer; }
+.nav-toc ul { list-style: none; padding: 8px 0 0; }
+.nav-toc li { padding: 3px 0; font-size: 0.9em; }
+.nav-toc a { text-decoration: none; color: var(--info); }
+.nav-toc a:hover { text-decoration: underline; }
+
+.budget-total {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+  padding: 12px;
+  background: #fff8e1;
+  border-radius: 6px;
+  margin: 12px 0;
+}
+
+.emergency-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+.emergency-item {
+  padding: 10px;
+  background: #ffebee;
+  border-radius: 6px;
+  border: 1px solid #ef9a9a;
+}
+.emergency-item .phone { font-size: 1.1em; font-weight: 700; color: var(--danger); }
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+  body { 
+    padding: 8px; 
+    font-size: 14px;
+  }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  
+  .grid-2 { grid-template-columns: 1fr; }
+  
+  .overview-banner { padding: 16px 12px; }
+  .overview-banner h1 { font-size: 1.3em; }
+  
+  .card { padding: 12px; }
+  
+  table { font-size: 0.85em; }
+  th, td { padding: 6px 8px; }
+  
+  .timeline { padding-left: 24px; }
+  .timeline-item { padding: 8px 10px; }
+  
+  .map-container .leaflet-map { height: 220px; }
+  
+  .food-list { grid-template-columns: 1fr; }
+  
+  .emergency-grid { grid-template-columns: 1fr; }
+}
+
+@media print {
+  /* 基础设置 */
+  body { 
+    padding: 0; 
+    background: white; 
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+  
+  /* 页面设置 */
+  @page {
+    size: A4;
+    margin: 1.5cm;
+  }
+  
+  /* 隐藏不需要的元素 */
+  .nav-toc { display: none !important; }
+  .map-links { display: none !important; }
+  
+  /* 卡片样式 */
+  .card { 
+    box-shadow: none !important; 
+    border: 1px solid #ddd;
+    page-break-inside: avoid;
+    margin: 10px 0;
+  }
+  
+  /* 确保背景色打印 */
+  .overview-banner,
+  .card-warn,
+  .card-tip,
+  .card-info,
+  .card-hotel,
+  .backup-plan,
+  .budget-total,
+  .emergency-item,
+  .restaurant-item,
+  .food-item,
+  .tag {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  
+  /* 表格优化 */
+  table {
+    page-break-inside: auto;
+    font-size: 10pt;
+  }
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+  thead {
+    display: table-header-group;
+  }
+  
+  /* 时间线优化 */
+  .timeline-item {
+    page-break-inside: avoid;
+  }
+  
+  /* 展开所有details */
+  details { 
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  details[open] summary ~ .detail-content { 
+    display: block !important; 
+  }
+  
+  /* 地图容器 - 在PDF中隐藏（地图无法在PDF中显示） */
+  .map-container {
+    display: none;
+  }
+  
+  /* 标题分页控制 */
+  h2 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+  
+  h3 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+  
+  /* 链接显示 */
+  a {
+    color: #0984e3;
+    text-decoration: none;
+  }
+  
+  /* 紧急联系方式网格 */
+  .emergency-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* 餐厅推荐 */
+  .restaurant-item {
+    page-break-inside: avoid;
+  }
+  
+  /* 顶部横幅 */
+  .overview-banner {
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="overview-banner">
+  <h1>🇲🇾🇹🇭 马来西亚 + 泰国 旅游攻略</h1>
+  <div class="subtitle">深圳出发 · 9天8晚 · 2025.9.27 - 10.5</div>
+  <div style="margin-top:12px; font-size:0.85em; opacity:0.8;">
+    深圳 ✈ 吉隆坡(2晚) ✈ 槟城(2晚) ✈ 曼谷(4晚) ✈ 深圳
+  </div>
+</div>
+
+<!-- 目录导航 -->
+<details class="nav-toc">
+  <summary>📑 目录导航（点击展开/收起）</summary>
+  <div class="grid-2">
+    <ul>
+      <li><a href="#overview">📊 行程总览</a></li>
+      <li><a href="#flights">✈️ 确认的航班信息</a></li>
+      <li><a href="#hotels">🏨 确认的酒店信息</a></li>
+      <li><a href="#preparation">🎒 出发前准备</a></li>
+      <li><a href="#budget">💰 预算概览</a></li>
+      <li><a href="#day1">Day1 · 9/27 深圳→吉隆坡</a></li>
+    </ul>
+    <ul>
+      <li><a href="#day2">Day2 · 9/28 吉隆坡市区</a></li>
+      <li><a href="#day3">Day3 · 9/29 吉隆坡→槟城</a></li>
+      <li><a href="#day4">Day4 · 9/30 槟城</a></li>
+      <li><a href="#day5">Day5 · 10/1 槟城→曼谷</a></li>
+      <li><a href="#day6">Day6 · 10/2 曼谷经典</a></li>
+      <li><a href="#day7">Day7 · 10/3 大城一日游</a></li>
+      <li><a href="#day8">Day8 · 10/4 曼谷购物</a></li>
+      <li><a href="#day9">Day9 · 10/5 返程深圳</a></li>
+      <li><a href="#emergency">🆘 紧急联系</a></li>
+    </ul>
+  </div>
+</details>
+
+<!-- ==================== 行程总览 ==================== -->
+<h2 id="overview">📊 行程总览</h2>
+
+<div class="card">
+<table>
+<thead>
+<tr>
+  <th>日期</th><th>星期</th><th>城市</th><th>行程概览</th><th>住宿</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>9/27</td><td>周六</td>
+  <td><span class="tag tag-my">🇲🇾 吉隆坡</span></td>
+  <td>✈️ 15:00到达 → 酒店入住 → 阿罗街夜市</td>
+  <td>吉隆坡<br>Hotel Royal Signature</td>
+</tr>
+<tr>
+  <td>9/28</td><td>周日</td>
+  <td><span class="tag tag-my">🇲🇾 吉隆坡</span></td>
+  <td>黑风洞 → 茨厂街 → 独立广场 → 国家清真寺 → 🌃双子塔</td>
+  <td>吉隆坡<br>Hotel Royal Signature</td>
+</tr>
+<tr>
+  <td>9/29</td><td>周一</td>
+  <td><span class="tag tag-my">🇲🇾 槟城</span></td>
+  <td>🚄 KL→Butterworth → George Town老城 → 壁画 → 姓氏桥</td>
+  <td>槟城<br>Sunway Georgetown</td>
+</tr>
+<tr>
+  <td>9/30</td><td>周二</td>
+  <td><span class="tag tag-my">🇲🇾 槟城</span></td>
+  <td>⛰️升旗山 → 极乐寺 → 下午休息 → George Town夜逛</td>
+  <td>槟城<br>Sunway Georgetown</td>
+</tr>
+<tr>
+  <td>10/1</td><td>周三</td>
+  <td><span class="tag tag-my">🇲🇾</span>→<span class="tag tag-th">🇹🇭</span></td>
+  <td>☕ 最后闲逛 → ✈️ 14:00槟城→15:00曼谷 → Asok入住 → 按摩</td>
+  <td>曼谷<br>NH Bangkok Asoke</td>
+</tr>
+<tr>
+  <td>10/2</td><td>周四</td>
+  <td><span class="tag tag-th">🇹🇭 曼谷</span></td>
+  <td>⭐ 大皇宫+玉佛寺 → 卧佛寺 → 郑王庙 → 唐人街</td>
+  <td>曼谷<br>NH Bangkok Asoke</td>
+</tr>
+<tr>
+  <td>10/3</td><td>周五</td>
+  <td><span class="tag tag-th">🇹🇭 曼谷</span></td>
+  <td>🏛️ 大城 Ayutthaya 一日游 → 傍晚返回曼谷</td>
+  <td>曼谷<br>NH Bangkok Asoke</td>
+</tr>
+<tr>
+  <td>10/4</td><td>周六</td>
+  <td><span class="tag tag-th">🇹🇭 曼谷</span></td>
+  <td>🛍️ Chatuchak周末市场 → Siam购物 → 按摩 → 🌃Rooftop Bar</td>
+  <td>曼谷<br>NH Bangkok Asoke</td>
+</tr>
+<tr>
+  <td>10/5</td><td>周日</td>
+  <td><span class="tag tag-th">🇹🇭</span>→<span class="tag tag-green">🏠</span></td>
+  <td>✈️ 18:00廊曼DMK → 深圳 → 回家</td>
+  <td>—</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- ==================== 确认的航班信息 ==================== -->
+<h2 id="flights">✈️ 确认的航班信息</h2>
+
+<div class="card card-info">
+  <table>
+    <thead>
+      <tr><th>日期</th><th>航段</th><th>时间</th><th>备注</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>9/27 周六</strong></td>
+        <td>深圳 → 吉隆坡</td>
+        <td>15:00 到达 KLIA</td>
+        <td>深圳直飞，飞行约4小时</td>
+      </tr>
+      <tr>
+        <td><strong>10/1 周三</strong></td>
+        <td>槟城 → 曼谷</td>
+        <td>14:00起飞 → 15:00到达 BKK</td>
+        <td>飞行约2小时</td>
+      </tr>
+      <tr>
+        <td><strong>10/5 周日</strong></td>
+        <td>曼谷(廊曼) → 深圳</td>
+        <td>18:00 起飞 DMK</td>
+        <td>廊曼机场直飞深圳</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ==================== 确认的酒店信息 ==================== -->
+<h2 id="hotels">🏨 确认的酒店信息</h2>
+
+<div class="card card-hotel">
+  <h3>🇲🇾 吉隆坡：Hotel Royal Signature</h3>
+  <p><span class="tag tag-hotel">🏨 已确认</span> 9/27-9/29（2晚）</p>
+  <table>
+    <tr><th>项目</th><th>详情</th></tr>
+    <tr><td>地址</td><td>21, Jalan Bukit Bintang, 55100 Kuala Lumpur</td></tr>
+    <tr><td>位置</td><td>武吉免登核心区，步行至Bukit Bintang MRT站约5-8分钟</td></tr>
+    <tr><td>坐标</td><td>3.1470, 101.7110</td></tr>
+    <tr><td>周边</td><td>阿罗街、Pavilion KL、Berjaya Times Square步行可达</td></tr>
+  </table>
+</div>
+
+<div class="card card-hotel">
+  <h3>🇲🇾 槟城：Sunway Hotel Georgetown Penang</h3>
+  <p><span class="tag tag-hotel">🏨 已确认</span> 9/29-10/1（2晚）</p>
+  <table>
+    <tr><th>项目</th><th>详情</th></tr>
+    <tr><td>地址</td><td>33, New Lane (Off Macalister Road), George Town, 10400 Penang</td></tr>
+    <tr><td>位置</td><td>George Town UNESCO核心区，靠近New Lane夜市</td></tr>
+    <tr><td>坐标</td><td>5.4130, 100.3200</td></tr>
+    <tr><td>周边</td><td>壁画街、姓氏桥、老城美食步行可达</td></tr>
+  </table>
+</div>
+
+<div class="card card-hotel">
+  <h3>🇹🇭 曼谷：NH Bangkok Asoke</h3>
+  <p><span class="tag tag-hotel">🏨 已确认</span> 10/1-10/5（4晚）</p>
+  <table>
+    <tr><th>项目</th><th>详情</th></tr>
+    <tr><td>地址</td><td>16 Ratchadapisek Road, Sukhumvit, Khlongtoey, Bangkok 10110</td></tr>
+    <tr><td>位置</td><td>Asok区，BTS+MRT交汇，步行至Terminal 21约5分钟</td></tr>
+    <tr><td>坐标</td><td>13.7348, 100.5605</td></tr>
+    <tr><td>周边</td><td>Sukhumvit商圈、Siam、Chatuchak交通便利</td></tr>
+  </table>
+</div>
+
+<!-- ==================== 出发前准备 ==================== -->
+<h2 id="preparation">🎒 出发前准备</h2>
+
+<div class="card card-warn">
+  <h3>🛂 签证政策（重要！）</h3>
+  <h4>🇲🇾 马来西亚：免签 + 需填MDAC</h4>
+  <p>2025年7月17日起中马互免签证协定生效，中国公民持有效护照可免签入境。<strong>但必须填写MDAC电子入境卡</strong>。</p>
+  <ul class="checklist">
+    <li>护照有效期需超过2026年4月5日（6个月以上）</li>
+    <li>准备好回程机票和酒店确认单（入境可能查验）</li>
+    <li>出发前3天在 <a href="https://imigresen-online.imi.gov.my/mdac/main" target="_blank">MDAC官方系统</a> 填写</li>
+    <li>填写后截图/打印保存</li>
+  </ul>
+  <h4>🇹🇭 泰国：免签 + 需填TDAC</h4>
+  <p>免签入境，但<strong>2025年5月1日起必须填写TDAC电子入境卡</strong>。</p>
+  <ul class="checklist">
+    <li>出发前3天在 <a href="https://tdac.immigration.go.th" target="_blank">TDAC官方系统</a> 填写</li>
+    <li>填写后截图/打印保存</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>🎒 行李清单</h3>
+  <div class="grid-2">
+    <div>
+      <h4>📄 证件类</h4>
+      <ul class="checklist">
+        <li>护照（有效期6个月+）</li>
+        <li>护照复印件/电子备份</li>
+        <li>机票行程单打印</li>
+        <li>酒店预订确认单打印</li>
+        <li>MDAC马来西亚电子入境卡截图</li>
+        <li>TDAC泰国电子入境卡截图</li>
+        <li>旅行保险单</li>
+      </ul>
+    </div>
+    <div>
+      <h4>💳 财务类</h4>
+      <ul class="checklist">
+        <li>银行卡×2（Visa/Mastercard + 银联）</li>
+        <li>现金（马币RM500 + 泰铢3000起）</li>
+      </ul>
+    </div>
+    <div>
+      <h4>🔌 电子设备</h4>
+      <ul class="checklist">
+        <li>充电宝（≤20000mAh）</li>
+        <li>万能转换头（马来英标，泰国美标）</li>
+        <li>eSIM/电话卡</li>
+      </ul>
+    </div>
+    <div>
+      <h4>👕 日用类</h4>
+      <ul class="checklist">
+        <li>折叠伞/轻便雨衣（雨季必备！）</li>
+        <li>防晒霜 SPF50+</li>
+        <li>驱蚊液</li>
+        <li>舒适运动鞋（防水款）</li>
+        <li>薄外套（商场冷气足）</li>
+        <li>长裤+有袖上衣（大皇宫用）</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card card-tip">
+  <h3>📋 出发前待办清单（按时间顺序）</h3>
+  
+  <h4>🔴 出发前3-4周（现在就要做！）</h4>
+  <ul class="checklist">
+    <li><strong>填写马来西亚MDAC</strong>：出发前3天内在 <a href="https://imigresen-online.imi.gov.my/mdac/main" target="_blank">MDAC官网</a> 填写，截图保存</li>
+    <li><strong>填写泰国TDAC</strong>：出发前3天内在 <a href="https://tdac.immigration.go.th" target="_blank">TDAC官网</a> 填写，截图保存</li>
+    <li><strong>购买旅行保险</strong>：支付宝/微信搜"旅行保险"，9天约¥50-150</li>
+    <li><strong>购买eSIM/电话卡</strong>：淘宝搜"马来西亚电话卡"+"泰国电话卡"，或买东南亚多国eSIM</li>
+  </ul>
+  
+  <h4>🟠 出发前2周</h4>
+  <ul class="checklist">
+    <li><strong>购买ETS火车票</strong>（吉隆坡→槟城）：
+      <ul style="margin-top:6px;">
+        <li>下载 <strong>KTMB Mobile</strong> App（马来西亚火车官方App）</li>
+        <li>搜索：KL Sentral → Butterworth，日期9/29</li>
+        <li>推荐车次：EX 9108（11:40发车，15:15到达，快速车）</li>
+        <li>票价约RM40-60（¥60-90），可选高级舱（Air Indulgence）更舒适</li>
+        <li>用Visa/Mastercard信用卡支付</li>
+        <li>⚠️ 国庆期间票紧张，尽早购买</li>
+      </ul>
+    </li>
+    <li><strong>预订大城一日游</strong>：在Klook App预订10/3的团（含酒店接送+导游+游船），约¥150-300</li>
+    <li><strong>换现金</strong>：银行换少量马币RM500 + 泰铢3000（不够到当地ATM取）</li>
+  </ul>
+  
+  <h4>🟡 出发前1周</h4>
+  <ul class="checklist">
+    <li><strong>下载必备APP</strong>：
+      <ul style="margin-top:6px;">
+        <li>🚗 <strong>Grab</strong>（打车必备，马来+泰国通用）</li>
+        <li>🗺️ <strong>Google Maps</strong>（导航）</li>
+        <li>🚄 <strong>KTMB Mobile</strong>（马来西亚火车）</li>
+        <li>🎫 <strong>Klook</strong>（活动订票）</li>
+        <li>🌐 <strong>Google Translate</strong>（翻译，支持拍照翻译菜单）</li>
+        <li>💱 <strong>XE Currency</strong>（汇率换算）</li>
+      </ul>
+    </li>
+    <li><strong>注册Grab并绑卡</strong>：绑定Visa/Mastercard信用卡，打车直接扣款</li>
+    <li><strong>打印重要文件</strong>：机票行程单、酒店确认单、保险单、MDAC/TDAC截图</li>
+    <li><strong>准备行李</strong>：按清单准备（特别注意：折叠伞、防晒霜、长裤+有袖上衣）</li>
+  </ul>
+  
+  <h4>🟢 出发前1天</h4>
+  <ul class="checklist">
+    <li><strong>确认所有预订</strong>：检查机票、酒店、火车票、大城一日游</li>
+    <li><strong>充电宝充满电</strong></li>
+    <li><strong>告知家人行程</strong>：把每日行程发给家人备份</li>
+    <li><strong>护照、现金、银行卡分开放</strong></li>
+  </ul>
+</div>
+
+<div class="card card-info">
+  <h3>📱 电话卡/上网方案（详细）</h3>
+  <p>跨国旅行（马来西亚+泰国）推荐以下方案：</p>
+  
+  <table>
+    <thead>
+      <tr><th>方案</th><th>说明</th><th>价格</th><th>推荐度</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>多国eSIM</strong><br>（Airalo/Holafly）</td>
+        <td>一张eSIM覆盖马来+泰国，不用换卡，落地即用</td>
+        <td>¥50-100/10天</td>
+        <td>⭐⭐⭐⭐⭐</td>
+      </tr>
+      <tr>
+        <td><strong>淘宝买两张卡</strong></td>
+        <td>马来一张（Hotlink/Digi），泰国一张（AIS/TrueMove）</td>
+        <td>¥20-40/张</td>
+        <td>⭐⭐⭐⭐</td>
+      </tr>
+      <tr>
+        <td><strong>当地买卡</strong></td>
+        <td>机场/便利店买，但机场价格贵，落地没网不方便</td>
+        <td>贵</td>
+        <td>⭐⭐⭐</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h4>💡 推荐方案</h4>
+  <p><strong>首选：多国eSIM（Airalo）</strong></p>
+  <ul>
+    <li>✅ 一张卡覆盖马来西亚+泰国，不用换卡</li>
+    <li>✅ 出发前在国内装好，落地开机即用</li>
+    <li>✅ 支持eSIM的手机（iPhone XS以上、多数安卓新机）</li>
+    <li>⚠️ 需确认手机支持eSIM</li>
+  </ul>
+  <p><strong>备选：淘宝买两张实体卡</strong></p>
+  <ul>
+    <li>✅ 便宜，马来西亚Hotlink + 泰国AIS</li>
+    <li>✅ 手机不用支持eSIM</li>
+    <li>⚠️ 到泰国需要换卡（马来西亚卡失效）</li>
+  </ul>
+  <p style="margin-top:8px; color:var(--text-light);">💡 如果手机不支持eSIM，选淘宝买两张实体卡。</p>
+</div>
+
+<div class="card card-warn">
+  <h3>👔 游玩着装注意事项（重点！）</h3>
+  <table>
+    <thead>
+      <tr><th>景点</th><th>着装要求</th><th>违规后果</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>👑 泰国大皇宫</td>
+        <td><strong>必须长裤/长裙 + 有袖上衣</strong>，不能穿拖鞋、破洞裤、紧身裤</td>
+        <td>拒绝入内或需现场租衣服（排队久、贵）</td>
+      </tr>
+      <tr>
+        <td>🛕 泰国卧佛寺/郑王庙</td>
+        <td>需脱鞋进入，着装不能太暴露</td>
+        <td>拒绝入内</td>
+      </tr>
+      <tr>
+        <td>🕌 马来西亚国家清真寺</td>
+        <td>需脱鞋，穿长袖长裤（门口可免费借）</td>
+        <td>拒绝入内</td>
+      </tr>
+      <tr>
+        <td>⛰️ 马来西亚黑风洞</td>
+        <td>不能穿短裤（可借纱笼）</td>
+        <td>拒绝入内</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h4>📅 建议准备</h4>
+  <ul class="checklist">
+    <li><strong>10/2大皇宫当天</strong>：穿长裤 + 有袖上衣 + 运动鞋（不穿拖鞋）</li>
+    <li><strong>10/3大城寺庙</strong>：穿长裤（有多个寺庙需脱鞋）</li>
+    <li><strong>9/28黑风洞+国家清真寺</strong>：穿长裤，带一件薄外套</li>
+    <li><strong>日常其他天</strong>：短裤短袖即可，但随身带一条薄长裤备用</li>
+  </ul>
+  <p style="margin-top:8px; color:var(--text-light);">💡 建议随身带一条轻薄长裤和一件防晒薄外套，随时应对寺庙着装要求。</p>
+</div>
+
+<!-- ==================== 预算概览 ==================== -->
+<h2 id="budget">💰 预算概览</h2>
+
+<div class="card">
+<table>
+<thead>
+<tr><th>项目</th><th>明细</th><th>预估费用(¥)</th></tr>
+</thead>
+<tbody>
+<tr><td>✈️ 机票</td><td>深圳→KL + PEN→BKK + DMK→深圳</td><td>已购</td></tr>
+<tr><td>🚄 城际交通</td><td>ETS火车 KL→槟城</td><td>100 ~ 200</td></tr>
+<tr><td>🏨 住宿</td><td>8晚 × ¥300-450</td><td>2,400 ~ 3,600</td></tr>
+<tr><td>🍜 餐饮</td><td>9天 × ¥150-280/天</td><td>1,350 ~ 2,500</td></tr>
+<tr><td>🚇 市内交通</td><td>地铁/Grab/打车</td><td>400 ~ 700</td></tr>
+<tr><td>🎫 门票活动</td><td>大皇宫+大城+升旗山等</td><td>300 ~ 600</td></tr>
+<tr><td>💆 按摩/体验</td><td>泰式按摩等</td><td>200 ~ 400</td></tr>
+<tr><td>📡 通讯+保险</td><td>eSIM + 旅行保险</td><td>100 ~ 250</td></tr>
+<tr><td>🛍️ 购物/备用</td><td>纪念品等</td><td>500 ~ 1,000</td></tr>
+</tbody>
+</table>
+<div class="budget-total">
+  💰 当地花费预算：¥5,350 ~ 9,750（不含已购机票）
+</div>
+</div>
+
+<!-- ==================== 每日详细行程 ==================== -->
+<h2>📅 每日详细行程</h2>
+
+<!-- ===== DAY 1 ===== -->
+<div class="card card-my" id="day1">
+  <h3>📅 Day 1 · 9月27日（周六）· 深圳 → 吉隆坡</h3>
+  <p><span class="tag tag-my">🇲🇾 吉隆坡</span> ✈️ 15:00到达 · 轻松适应</p>
+
+  <div class="map-container">
+    <div class="leaflet-map" data-lat="3.1470" data-lng="101.7110" data-zoom="16" data-markers='[{"lat":3.1470,"lng":101.7110,"name":"🏨 Hotel Royal Signature"},{"lat":3.1460,"lng":101.7117,"name":"🚇 Bukit Bintang MRT站"},{"lat":3.1457,"lng":101.7110,"name":"🚇 Bukit Bintang Monorail站"},{"lat":3.1467,"lng":101.7095,"name":"📍 阿罗街 Jalan Alor"},{"lat":3.1495,"lng":101.7130,"name":"📍 Pavilion KL"}]'></div>
+  </div>
+  <div class="map-links">
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=3.1470,101.7110" target="_blank">📍 Google地图</a>
+    <a class="map-link" href="https://maps.apple.com/?ll=3.1470,101.7110&q=Hotel%20Royal%20Signature" target="_blank">📍 Apple地图</a>
+    <a class="map-link" href="https://www.openstreetmap.org/?mlat=3.1470&mlon=101.7110#map=16/3.1470/101.7110" target="_blank">📍 OpenStreetMap</a>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">11:00-15:00</div>
+      <p>✈️ 深圳宝安机场 → 吉隆坡KLIA（飞行约4小时）</p>
+      <p style="font-size:0.85em; color:var(--text-light);">建议10:00前到机场办理值机。</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">15:00-16:30</div>
+      <p>🛃 入境 + 取行李</p>
+      <p style="font-size:0.85em; color:var(--text-light);">免签入境，盖章即可。KLIA2入境通常较快。</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">16:30-18:00</div>
+      <p>🚇 KLIA → 酒店</p>
+      <p style="font-size:0.85em; color:var(--text-light);">
+        方案1：KLIA Express到KL Sentral（30分钟）→ 转MRT到Bukit Bintang<br>
+        方案2：Grab打车直达酒店（约¥50-70，45分钟）<br>
+        🏨 入住 <strong>Hotel Royal Signature</strong>
+      </p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">18:30-21:00</div>
+      <p>🍜 阿罗街（Jalan Alor）夜市晚餐</p>
+      <p style="font-size:0.85em; color:var(--text-light);">步行可达。推荐：黄亚华烤鸡翅、沙爹、榴莲（9月尾声！）</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">21:00+</div>
+      <p>🚶 回酒店休息，调整状态</p>
+    </div>
+  </div>
+
+  <details>
+    <summary>🍽️ Day1 美食推荐</summary>
+    <div class="detail-content">
+      <div class="restaurant-list">
+        <div class="restaurant-item">
+          <strong>黄亚华小食店</strong>（阿罗街）<br>
+          📍 阿罗街中段 | 推荐：烤鸡翅、沙爹<br>
+          💰 人均：RM30-50
+        </div>
+        <div class="restaurant-item">
+          <strong>新峰肉骨茶</strong>（茨厂街附近）<br>
+          📍 Jalan Sultan | 推荐：肉骨茶、猪杂汤<br>
+          💰 人均：RM20-35
+        </div>
+        <div class="restaurant-item">
+          <strong>金莲记福建面</strong>（茨厂街）<br>
+          📍 Jalan Petaling | 推荐：福建虾面<br>
+          💰 人均：RM15-25
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <div class="backup-plan">
+    <h4>💡 Day1提示</h4>
+    <p>15:00到达+入境+交通，到酒店约18:00。第一天以休息为主，不安排太多活动。</p>
+  </div>
+</div>
+
+<!-- ===== DAY 2 ===== -->
+<div class="card card-my" id="day2">
+  <h3>📅 Day 2 · 9月28日（周日）· 吉隆坡市区深度游</h3>
+  <p><span class="tag tag-my">🇲🇾 吉隆坡</span> 🏛️ 文化+地标</p>
+
+  <div class="map-container">
+    <div class="leaflet-map" data-lat="3.1550" data-lng="101.6950" data-zoom="13" data-markers='[{"lat":3.1470,"lng":101.7110,"name":"🏨 Hotel Royal Signature"},{"lat":3.1460,"lng":101.7117,"name":"🚇 Bukit Bintang MRT站"},{"lat":3.2380,"lng":101.6836,"name":"📍 黑风洞 Batu Caves"},{"lat":3.1457,"lng":101.6969,"name":"📍 茨厂街 Petaling Street"},{"lat":3.1485,"lng":101.6930,"name":"📍 独立广场"},{"lat":3.1415,"lng":101.6920,"name":"📍 国家清真寺"},{"lat":3.1579,"lng":101.7116,"name":"📍 双子塔 KLCC"}]'></div>
+  </div>
+  <div class="map-links">
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=3.1550,101.6950" target="_blank">📍 Google地图</a>
+    <a class="map-link" href="https://maps.apple.com/?ll=3.1550,101.6950&q=Kuala%20Lumpur" target="_blank">📍 Apple地图</a>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">08:00-11:00</div>
+      <p>⛰️ <strong>黑风洞（Batu Caves）</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">从KL Sentral坐KTM火车30分钟 | 免费 | 注意猴子！</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">11:30-13:00</div>
+      <p>🏮 <strong>茨厂街（Petaling Street）午餐</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">推荐新峰肉骨茶或金莲记福建面</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">13:00-15:00</div>
+      <p>🏛️ <strong>独立广场 → 国家清真寺 → 老火车站</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">步行可达 | 清真寺需脱鞋、穿长袖长裤</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">15:00-17:30</div>
+      <p>☕ <strong>下午休息</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">回酒店或Pavilion KL商场吹空调</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">17:30-21:00</div>
+      <p>🌃 <strong>双子塔（KLCC）+ 晚餐</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">傍晚去看日落+夜景 | Suria KLCC商场美食层</p>
+    </div>
+  </div>
+
+  <details>
+    <summary>🍽️ Day2 美食推荐</summary>
+    <div class="detail-content">
+      <div class="restaurant-list">
+        <div class="restaurant-item">
+          <strong>Madam Kwan's</strong>（Pavilion KL）<br>
+          📍 Pavilion KL 4楼 | 推荐：椰浆饭、仁当牛肉<br>
+          💰 人均：RM40-60
+        </div>
+        <div class="restaurant-item">
+          <strong>OldChina Cafe</strong>（茨厂街）<br>
+          📍 Jalan Balai Polis | 推荐：娘惹菜、海南鸡饭<br>
+          💰 人均：RM25-40
+        </div>
+        <div class="restaurant-item">
+          <strong>Suria KLCC美食层</strong>（双子塔）<br>
+          📍 Suria KLCC商场 | 推荐：各种马来/中餐/西餐<br>
+          💰 人均：RM30-50
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ===== DAY 3 ===== -->
+<div class="card card-my" id="day3">
+  <h3>📅 Day 3 · 9月29日（周一）· 吉隆坡 → 槟城</h3>
+  <p><span class="tag tag-my">🇲🇾 槟城</span> 🚄 火车转移日</p>
+
+  <div class="map-container">
+    <div class="leaflet-map" data-lat="5.4141" data-lng="100.3350" data-zoom="15" data-markers='[{"lat":5.4130,"lng":100.3200,"name":"🏨 Sunway Hotel Georgetown"},{"lat":5.4167,"lng":100.3686,"name":"📍 Armenian Street壁画"},{"lat":5.4120,"lng":100.3740,"name":"📍 姓氏桥"},{"lat":5.4130,"lng":100.3150,"name":"📍 New Lane夜市"}]'></div>
+  </div>
+  <div class="map-links">
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=5.4141,100.3350" target="_blank">📍 Google地图</a>
+    <a class="map-link" href="https://maps.apple.com/?ll=5.4141,100.3350&q=George%20Town%20Penang" target="_blank">📍 Apple地图</a>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">08:00-10:00</div>
+      <p>🏨 退房 → KL Sentral</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">11:40-15:15</div>
+      <p>🚄 ETS火车 KL Sentral → Butterworth</p>
+      <p style="font-size:0.85em; color:var(--text-light);">EX 9108快速车，约3.5小时</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">15:30-16:30</div>
+      <p>🚢 Butterworth → 渡轮 → George Town → 酒店</p>
+      <p style="font-size:0.85em; color:var(--text-light);">🏨 入住 <strong>Sunway Hotel Georgetown</strong></p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">16:30-18:30</div>
+      <p>🎨 <strong>壁画街漫步</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">Armenian Street → 各种壁画打卡</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">18:30-19:30</div>
+      <p>🌅 <strong>姓氏桥看日落</strong></p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">19:30-21:00</div>
+      <p>🍜 <strong>New Lane夜市晚餐</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">炒粿条、煎蕊、叻沙</p>
+    </div>
+  </div>
+
+  <details>
+    <summary>🍽️ Day3 美食推荐</summary>
+    <div class="detail-content">
+      <div class="restaurant-list">
+        <div class="restaurant-item">
+          <strong>Sister's Curry Mee</strong>（New Lane）<br>
+          📍 New Lane夜市 | 推荐：咖喱面<br>
+          💰 人均：RM10-15
+        </div>
+        <div class="restaurant-item">
+          <strong>Teochew Chendol</strong>（Lebuh Keng Kwee）<br>
+          📍 壁画街附近 | 推荐：煎蕊、红豆冰<br>
+          💰 人均：RM5-10
+        </div>
+        <div class="restaurant-item">
+          <strong>Line Clear Nasi Kandar</strong>（Lebuh Penang）<br>
+          📍 老城中心 | 推荐：Nasi Kandar（印度煎饼+咖喱）<br>
+          💰 人均：RM12-20
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ===== DAY 4 ===== -->
+<div class="card card-my" id="day4">
+  <h3>📅 Day 4 · 9月30日（周二）· 槟城深度游</h3>
+  <p><span class="tag tag-my">🇲🇾 槟城</span> ⛰️ 升旗山+极乐寺</p>
+
+  <div class="map-container">
+    <div class="leaflet-map" data-lat="5.4150" data-lng="100.2900" data-zoom="13" data-markers='[{"lat":5.4130,"lng":100.3200,"name":"🏨 Sunway Hotel"},{"lat":5.4235,"lng":100.2710,"name":"📍 升旗山 Penang Hill"},{"lat":5.4100,"lng":100.2700,"name":"📍 极乐寺 Kek Lok Si"},{"lat":5.4145,"lng":100.3330,"name":"📍 蓝屋 Blue Mansion"}]'></div>
+  </div>
+  <div class="map-links">
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=5.4150,100.2900" target="_blank">📍 Google地图</a>
+    <a class="map-link" href="https://maps.apple.com/?ll=5.4150,100.2900&q=Penang%20Hill" target="_blank">📍 Apple地图</a>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">07:30-12:00</div>
+      <p>⛰️ <strong>升旗山（Penang Hill）</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">缆车6:30开始 | 门票RM30 | 建议一早去</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">12:30-14:30</div>
+      <p>🛕 <strong>极乐寺（Kek Lok Si）</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">从升旗山打车10分钟 | 门票RM2</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">14:30-17:00</div>
+      <p>☕ <strong>下午休息</strong></p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">17:00-19:00</div>
+      <p>🏛️ <strong>蓝屋 + George Town闲逛</strong></p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">19:00-21:00</div>
+      <p>🍜 <strong>晚餐</strong></p>
+    </div>
+  </div>
+
+  <details>
+    <summary>🍽️ Day4 美食推荐</summary>
+    <div class="detail-content">
+      <div class="restaurant-list">
+        <div class="restaurant-item">
+          <strong>Ah Itam Laksa</strong>（Air Itam）<br>
+          📍 极乐寺附近 | 推荐：亚参叻沙<br>
+          💰 人均：RM8-12
+        </div>
+        <div class="restaurant-item">
+          <strong>Restoran Soon Soon</strong>（Lebuh Kimberley）<br>
+          📍 老城南部 | 推荐：海南鸡饭<br>
+          💰 人均：RM15-25
+        </div>
+        <div class="restaurant-item">
+          <strong>China House</strong>（Lebuh Pantai）<br>
+          📍 海边 | 推荐：蛋糕、咖啡、西餐<br>
+          💰 人均：RM25-40
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ===== DAY 5 ===== -->
+<div class="card" id="day5" style="border-left: 4px solid var(--my-color); border-right: 4px solid var(--th-color);">
+  <h3>📅 Day 5 · 10月1日（周三）· 槟城 → 曼谷</h3>
+  <p><span class="tag tag-my">🇲🇾</span> → <span class="tag tag-th">🇹🇭</span> ✈️ 14:00起飞 · 跨国转移日</p>
+
+  <div class="map-container">
+    <div class="leaflet-map" data-lat="13.7360" data-lng="100.5605" data-zoom="16" data-markers='[{"lat":13.7348,"lng":100.5605,"name":"🏨 NH Bangkok Asoke"},{"lat":13.7370,"lng":100.5605,"name":"🚇 BTS Asok站"},{"lat":13.7375,"lng":100.5610,"name":"🚇 MRT Sukhumvit站"},{"lat":13.7377,"lng":100.5613,"name":"📍 Terminal 21"}]'></div>
+  </div>
+  <div class="map-links">
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=13.7360,100.5605" target="_blank">📍 Google地图</a>
+    <a class="map-link" href="https://maps.apple.com/?ll=13.7360,100.5605&q=NH%20Bangkok%20Asoke" target="_blank">📍 Apple地图</a>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">08:00-10:00</div>
+      <p>☕ <strong>George Town最后闲逛</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">退房前吃早餐，买伴手礼</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">10:00-11:30</div>
+      <p>🚕 酒店 → 槟城机场（PEN）</p>
+      <p style="font-size:0.85em; color:var(--text-light);">Grab约15-20分钟 | ⚠️ 12:00前到机场</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">14:00-15:00</div>
+      <p>✈️ 槟城 → 曼谷素万那普BKK</p>
+      <p style="font-size:0.85em; color:var(--text-light);">飞行约2小时</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">15:00-16:30</div>
+      <p>🚇 机场 → Asok酒店</p>
+      <p style="font-size:0.85em; color:var(--text-light);">
+        Airport Rail Link到Phaya Thai → BTS到Asok（约45分钟）<br>
+        或Grab打车约¥40-60
+      </p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">17:00+</div>
+      <p>🏨 入住 <strong>NH Bangkok Asoke</strong> → Terminal 21 → 按摩</p>
+      <p style="font-size:0.85em; color:var(--text-light);">Terminal 21美食层超便宜 | 晚上做泰式按摩</p>
+    </div>
+  </div>
+
+  <details>
+    <summary>🍽️ Day5 美食推荐</summary>
+    <div class="detail-content">
+      <div class="restaurant-list">
+        <div class="restaurant-item">
+          <strong>Terminal 21 Pier 21美食层</strong>（5楼）<br>
+          📍 Terminal 21商场 | 推荐：船面、粿条、芒果糯米饭<br>
+          💰 人均：30-50泰铢（超便宜！）
+        </div>
+        <div class="restaurant-item">
+          <strong>Let's Relax Spa</strong>（Terminal 21附近）<br>
+          📍 Sukhumvit Soi 18 | 推荐：泰式按摩2小时<br>
+          💰 人均：600-1000泰铢
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ===== DAY 6 ===== -->
+<div class="card card-th" id="day6">
+  <h3>📅 Day 6 · 10月2日（周四）· 曼谷经典一日 ⭐</h3>
+  <p><span class="tag tag-th">🇹🇭 曼谷</span> 👑 大皇宫+寺庙群</p>
+
+  <div class="map-container">
+    <div class="leaflet-map" data-lat="13.7470" data-lng="100.4950" data-zoom="14" data-markers='[{"lat":13.7348,"lng":100.5605,"name":"🏨 NH Bangkok Asoke"},{"lat":13.7370,"lng":100.5605,"name":"🚇 BTS Asok站"},{"lat":13.7500,"lng":100.4914,"name":"📍 大皇宫 Grand Palace"},{"lat":13.7440,"lng":100.4890,"name":"📍 卧佛寺 Wat Pho"},{"lat":13.7437,"lng":100.4889,"name":"📍 郑王庙 Wat Arun"},{"lat":13.7410,"lng":100.5120,"name":"📍 唐人街 Yaowarat"}]'></div>
+  </div>
+  <div class="map-links">
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=13.7470,100.4950" target="_blank">📍 Google地图</a>
+    <a class="map-link" href="https://maps.apple.com/?ll=13.7470,100.4950&q=Grand%20Palace%20Bangkok" target="_blank">📍 Apple地图</a>
+  </div>
+
+  <div class="card card-warn" style="margin:10px 0;">
+    <h4>⚠️ 大皇宫提醒</h4>
+    <ul>
+      <li>🕐 开放：8:30-16:30 | 🎫 门票：500泰铢</li>
+      <li>👔 <strong>着装严格</strong>：不能穿短裤/无袖/拖鞋</li>
+      <li>⏰ 建议8:00到门口排队</li>
+    </ul>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">08:00-11:00</div>
+      <p>👑 <strong>大皇宫 + 玉佛寺</strong></p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">11:00-12:30</div>
+      <p>🛕 <strong>卧佛寺（Wat Pho）</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">门票200泰铢 | 46米长卧佛</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">12:30-16:00</div>
+      <p>🍜 <strong>午餐 + 回酒店休息</strong></p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">16:00-17:30</div>
+      <p>🌅 <strong>郑王庙（Wat Arun）</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">渡轮过河5泰铢 | 门票100泰铢 | 傍晚最美</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">18:00-21:00</div>
+      <p>🏮 <strong>唐人街（Yaowarat）晚餐</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">T&K海鲜、粿条、芒果糯米饭</p>
+    </div>
+  </div>
+
+  <details>
+    <summary>🍽️ Day6 美食推荐</summary>
+    <div class="detail-content">
+      <div class="restaurant-list">
+        <div class="restaurant-item">
+          <strong>T&K海鲜</strong>（唐人街）<br>
+          📍 Yaowarat Road | 推荐：炒蟹、烤虾、冬阴功<br>
+          💰 人均：300-500泰铢
+        </div>
+        <div class="restaurant-item">
+          <strong>Pa Aed Pochana</strong>（卧佛寺附近）<br>
+          📍 Tha Tien | 推荐：船面、粿条<br>
+          💰 人均：50-80泰铢
+        </div>
+        <div class="restaurant-item">
+          <strong>Supanniga Eating Room</strong>（Tha Tien）<br>
+          📍 湄南河边 | 推荐：泰式炒菜、咖喱<br>
+          💰 人均：200-350泰铢
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ===== DAY 7 ===== -->
+<div class="card card-th" id="day7">
+  <h3>📅 Day 7 · 10月3日（周五）· 大城一日游</h3>
+  <p><span class="tag tag-th">🇹🇭 曼谷周边</span> 🏛️ Ayutthaya世界遗产</p>
+
+  <div class="map-container">
+    <div class="leaflet-map" data-lat="14.3532" data-lng="100.5600" data-zoom="14" data-markers='[{"lat":13.7348,"lng":100.5605,"name":"🏨 NH Bangkok Asoke"},{"lat":14.3570,"lng":100.5625,"name":"📍 玛哈泰寺（树抱佛头）"},{"lat":14.3530,"lng":100.5530,"name":"📍 帕喜善佩寺"},{"lat":14.3490,"lng":100.5450,"name":"📍 柴瓦塔那兰寺"}]'></div>
+  </div>
+  <div class="map-links">
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=14.3532,100.5600" target="_blank">📍 Google地图</a>
+    <a class="map-link" href="https://maps.apple.com/?ll=14.3532,100.5600&q=Ayutthaya%20Historical%20Park" target="_blank">📍 Apple地图</a>
+  </div>
+
+  <div class="card card-info" style="margin:10px 0;">
+    <h4>🚗 大城交通</h4>
+    <p>💡 <strong>推荐Klook一日游</strong>：含酒店接送、导游、游船，约¥150-300</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">07:00-08:00</div>
+      <p>🚐 酒店接人出发</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">10:00-15:00</div>
+      <p>🏛️ <strong>大城历史遗迹群</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">玛哈泰寺（树抱佛头）、帕喜善佩寺、柴瓦塔那兰寺</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">17:00-18:00</div>
+      <p>🚗 返回曼谷</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">晚上</div>
+      <p>🍜 晚餐 + 休息</p>
+    </div>
+  </div>
+
+  <details>
+    <summary>🍽️ Day7 美食推荐</summary>
+    <div class="detail-content">
+      <div class="restaurant-list">
+        <div class="restaurant-item">
+          <strong>大城船面</strong>（大城遗址区内）<br>
+          📍 玛哈泰寺附近 | 推荐：船面、粿条<br>
+          💰 人均：50-80泰铢
+        </div>
+        <div class="restaurant-item">
+          <strong>Baan Thai Huae</strong>（Asok附近）<br>
+          📍 Sukhumvit Soi 23 | 推荐：泰式家常菜<br>
+          💰 人均：150-250泰铢
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ===== DAY 8 ===== -->
+<div class="card card-th" id="day8">
+  <h3>📅 Day 8 · 10月4日（周六）· 曼谷购物+休闲</h3>
+  <p><span class="tag tag-th">🇹🇭 曼谷</span> 🛍️ 周末市场+Siam</p>
+
+  <div class="map-container">
+    <div class="leaflet-map" data-lat="13.7700" data-lng="100.5450" data-zoom="13" data-markers='[{"lat":13.7348,"lng":100.5605,"name":"🏨 NH Bangkok Asoke"},{"lat":13.7370,"lng":100.5605,"name":"🚇 BTS Asok站"},{"lat":13.8028,"lng":100.5530,"name":"🚇 BTS Mo Chit站"},{"lat":13.7457,"lng":100.5340,"name":"🚇 BTS Siam站"},{"lat":13.7999,"lng":100.5505,"name":"📍 Chatuchak周末市场"},{"lat":13.7460,"lng":100.5347,"name":"📍 Siam Paragon"},{"lat":13.7464,"lng":100.5393,"name":"📍 CentralWorld"}]'></div>
+  </div>
+  <div class="map-links">
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=13.7700,100.5450" target="_blank">📍 Google地图</a>
+    <a class="map-link" href="https://maps.apple.com/?ll=13.7700,100.5450&q=Chatuchak%20Market%20Bangkok" target="_blank">📍 Apple地图</a>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">09:00-12:00</div>
+      <p>🛍️ <strong>Chatuchak周末市场</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">BTS Mo Chit站 | 15000+摊位 | 注意防扒手</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">12:00-14:00</div>
+      <p>🍜 <strong>午餐 + 回酒店休息</strong></p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">14:00-18:00</div>
+      <p>🏬 <strong>Siam商圈购物</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">Siam Paragon、CentralWorld、MBK Center</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">18:00-19:00</div>
+      <p>💆 <strong>按摩</strong></p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">19:30-22:00</div>
+      <p>🌃 <strong>Rooftop Bar 晚餐</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">推荐Vertigo或Octave</p>
+    </div>
+  </div>
+
+  <details>
+    <summary>🍽️ Day8 美食推荐</summary>
+    <div class="detail-content">
+      <div class="restaurant-list">
+        <div class="restaurant-item">
+          <strong>Chatuchak市场美食区</strong><br>
+          📍 周末市场内 | 推荐：椰子冰淇淋、烤鸡、粿条<br>
+          💰 人均：50-100泰铢
+        </div>
+        <div class="restaurant-item">
+          <strong>Nara Thai Cuisine</strong>（CentralWorld）<br>
+          📍 CentralWorld 4楼 | 推荐：冬阴功、咖喱蟹<br>
+          💰 人均：300-500泰铢
+        </div>
+        <div class="restaurant-item">
+          <strong>Vertigo Rooftop Bar</strong>（Banyan Tree酒店61层）<br>
+          📍 Sathorn | 推荐：鸡尾酒、夜景<br>
+          💰 人均：500-800泰铢
+        </div>
+      </div>
+    </div>
+  </details>
+</div>
+
+<!-- ===== DAY 9 ===== -->
+<div class="card" id="day9" style="border-left: 4px solid var(--th-color); border-right: 4px solid var(--success);">
+  <h3>📅 Day 9 · 10月5日（周日）· 曼谷 → 深圳</h3>
+  <p><span class="tag tag-th">🇹🇭</span> → <span class="tag tag-green">🏠 回家</span> ✈️ 18:00廊曼DMK起飞</p>
+
+  <div class="map-container">
+    <div class="leaflet-map" data-lat="13.8200" data-lng="100.5800" data-zoom="12" data-markers='[{"lat":13.7348,"lng":100.5605,"name":"🏨 NH Bangkok Asoke"},{"lat":13.7370,"lng":100.5605,"name":"🚇 BTS Asok站"},{"lat":13.9125,"lng":100.6067,"name":"✈️ 廊曼机场 DMK"}]'></div>
+  </div>
+  <div class="map-links">
+    <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=13.9125,100.6067" target="_blank">📍 Google地图</a>
+    <a class="map-link" href="https://maps.apple.com/?ll=13.9125,100.6067&q=Don%20Mueang%20Airport" target="_blank">📍 Apple地图</a>
+  </div>
+
+  <div class="card card-warn" style="margin:10px 0;">
+    <h4>⚠️ 返程重要提醒</h4>
+    <ul>
+      <li>✈️ 18:00从<strong>廊曼机场DMK</strong>起飞（不是素万那普BKK！）</li>
+      <li>⏰ 建议15:00前到机场（提前3小时）</li>
+      <li>🚕 Asok → 廊曼机场约45-60分钟（Grab约¥40-60）</li>
+      <li>🕐 <strong>最晚14:00从酒店出发</strong></li>
+    </ul>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">09:00-12:00</div>
+      <p>☕ <strong>上午自由活动</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">
+        可以去附近商场补货<br>
+        或在酒店附近咖啡馆休息<br>
+        最后逛逛Sukhumvit
+      </p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">12:00-13:30</div>
+      <p>🍜 <strong>午餐</strong></p>
+      <p style="font-size:0.85em; color:var(--text-light);">在酒店附近或Terminal 21吃最后一餐</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">13:30-14:00</div>
+      <p>🏨 退房 → 前往廊曼机场</p>
+      <p style="font-size:0.85em; color:var(--text-light);">
+        Grab打车约45-60分钟<br>
+        或坐A1/A2机场巴士到Mo Chit BTS附近再转
+      </p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">15:00-18:00</div>
+      <p>🛃 廊曼机场办理登机 + 免税店</p>
+      <p style="font-size:0.85em; color:var(--text-light);">廊曼机场免税店不大，可以逛逛</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">18:00</div>
+      <p>✈️ 廊曼DMK → 深圳</p>
+      <p style="font-size:0.85em; color:var(--text-light);">直飞约4小时</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-time">22:00-23:00</div>
+      <p>🏠 <strong>到达深圳，回家！</strong></p>
+    </div>
+  </div>
+
+  <details>
+    <summary>🍽️ Day9 美食推荐</summary>
+    <div class="detail-content">
+      <div class="restaurant-list">
+        <div class="restaurant-item">
+          <strong>Terminal 21 Pier 21</strong>（5楼）<br>
+          📍 酒店旁边 | 推荐：船面、粿条<br>
+          💰 人均：30-50泰铢
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <div class="backup-plan">
+    <h4>💡 Day9提示</h4>
+    <ul>
+      <li>上午还有时间，可以最后购物或按摩</li>
+      <li>14:00必须从酒店出发，不要迟到</li>
+      <li>保留所有购物小票（过关可能抽查）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== 紧急联系 ==================== -->
+<h2 id="emergency">🆘 安全注意事项 & 紧急联系</h2>
+
+<div class="card">
+  <h3>📞 紧急联系方式</h3>
+  <div class="emergency-grid">
+    <div class="emergency-item">
+      <p>🇲🇾 马来西亚报警</p>
+      <p class="phone">999</p>
+    </div>
+    <div class="emergency-item">
+      <p>🇹🇭 泰国报警</p>
+      <p class="phone">191</p>
+    </div>
+    <div class="emergency-item">
+      <p>🇹🇭 泰国急救</p>
+      <p class="phone">1669</p>
+    </div>
+    <div class="emergency-item">
+      <p>🇨🇳 外交部全球领保</p>
+      <p class="phone">+86-10-12308</p>
+    </div>
+    <div class="emergency-item">
+      <p>🇨🇳 驻马来大使馆</p>
+      <p class="phone">+60-3-21636815</p>
+    </div>
+    <div class="emergency-item">
+      <p>🇨🇳 驻泰国大使馆</p>
+      <p class="phone">+66-2-2457044</p>
+    </div>
+  </div>
+</div>
+
+<div class="card card-warn">
+  <h3>🛡️ 安全注意事项</h3>
+  <h4>🇲🇾 马来西亚</h4>
+  <ul>
+    <li>⚠️ <strong>飞车抢包</strong>：斜挎包背在身前，远离马路边，不要边走边看手机</li>
+    <li>⚠️ <strong>出租车宰客</strong>：优先用Grab打车，避免路边拦出租车</li>
+    <li>⚠️ <strong>夜间安全</strong>：不要深夜独自在偏僻区域，Bukit Bintang区域相对安全</li>
+    <li>⚠️ <strong>猴子</strong>：黑风洞注意猴子，不要手持食物/塑料袋，手机拿稳</li>
+  </ul>
+  <h4>🇹🇭 泰国</h4>
+  <ul>
+    <li>⚠️ <strong>大皇宫骗局</strong>：如有人告诉你"今天不开门"，不要信！直接去售票处</li>
+    <li>⚠️ <strong>嘟嘟车宰客</strong>：上车前必须确认价格，优先用Grab</li>
+    <li>⚠️ <strong>珠宝骗局</strong>：不要跟陌生人去"推荐"的珠宝店</li>
+    <li>⚠️ <strong>文化禁忌</strong>：不要碰别人头部（泰国人认为头部是神圣的）</li>
+    <li>⚠️ <strong>防扒手</strong>：Chatuchak市场人多拥挤，背包背前面</li>
+  </ul>
+  <h4>🔒 通用安全</h4>
+  <ul>
+    <li>✅ 护照复印件/电子备份与原件分开存放</li>
+    <li>✅ 贵重物品用酒店保险箱</li>
+    <li>✅ 出门前告知酒店/家人当天行程</li>
+    <li>✅ 手机保持电量充足（带充电宝）</li>
+    <li>✅ 备份重要文件到云端（护照、机票、保险单）</li>
+  </ul>
+</div>
+
+<div class="card card-info">
+  <h3>🏛️ 游览参观注意事项</h3>
+  <h4>🕌 清真寺（马来西亚国家清真寺）</h4>
+  <ul>
+    <li>👔 必须脱鞋进入</li>
+    <li>👗 穿长袖长裤（门口可免费借）</li>
+    <li>📸 拍照前确认是否允许</li>
+    <li>🕐 注意祈祷时间，可能临时关闭</li>
+  </ul>
+  <h4>👑 大皇宫（泰国）</h4>
+  <h3 style="color:var(--danger);">⚠️ 着装要求严格！</h3>
+  <ul>
+    <li>❌ 不能穿：短裤、短裙、无袖、拖鞋、破洞裤、紧身裤</li>
+    <li>✅ 必须穿：长裤/长裙 + 有袖上衣</li>
+    <li>🎫 门票500泰铢，现金支付</li>
+    <li>⏰ 建议8:00到门口排队（8:30开门）</li>
+    <li>📸 殿内禁止拍照</li>
+  </ul>
+  <h4>🛕 寺庙（泰国卧佛寺、郑王庙等）</h4>
+  <ul>
+    <li>👔 需脱鞋进入</li>
+    <li>👗 着装要求相对宽松，但不能太暴露</li>
+    <li>🙏 不要对着佛像指指点点</li>
+    <li>📸 大部分区域可以拍照，注意标识</li>
+  </ul>
+  <h4>⛰️ 升旗山（马来西亚）</h4>
+  <ul>
+    <li>🚠 缆车6:30开始运营</li>
+    <li>🎫 门票RM30（外国人）</li>
+    <li>⏰ 建议一早去（人少+凉快）</li>
+    <li>🌧️ 如遇大雨/大雾，山顶能见度差，可改行程</li>
+  </ul>
+  <h4>🏛️ 大城遗址（泰国）</h4>
+  <ul>
+    <li>🎫 每个寺庙单独收费（约50泰铢/个）</li>
+    <li>🐘 骑大象约200泰铢（可选）</li>
+    <li>☀️ 全露天，注意防晒+带伞</li>
+    <li>💧 带足饮用水</li>
+  </ul>
+</div>
+
+<!-- ==================== 页脚 ==================== -->
+<div style="text-align:center; padding:20px; color:var(--text-light); font-size:0.85em;">
+  <p>🇲🇾🇹🇭 祝旅途愉快！一路平安！</p>
+  <p>深圳 ✈ 吉隆坡 ✈ 槟城 ✈ 曼谷 ✈ 深圳</p>
+  <p>2025.9.27 - 10.5 · 9天8晚</p>
+  <p style="margin-top:8px; font-size:0.75em;">本攻略仅供参考，实际价格和时间请以官方信息为准。</p>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 导航栏自动收起逻辑
+  var navToc = document.querySelector('.nav-toc');
+  var lastScrollY = window.scrollY;
+  var scrollThreshold = 100; // 滚动超过100px后自动收起
+  
+  // 页面加载时如果已经滚动了一段距离，自动收起导航栏
+  if (window.scrollY > 50) {
+    navToc.removeAttribute('open');
+  }
+  
+  // 监听滚动事件
+  window.addEventListener('scroll', function() {
+    var currentScrollY = window.scrollY;
+    
+    // 向下滚动超过阈值，自动收起导航栏
+    if (currentScrollY > scrollThreshold && currentScrollY > lastScrollY) {
+      navToc.removeAttribute('open');
+    }
+    
+    lastScrollY = currentScrollY;
+  }, { passive: true });
+  
+  // 地图初始化
+  var mapContainers = document.querySelectorAll('.leaflet-map');
+  mapContainers.forEach(function(container) {
+    var lat = parseFloat(container.getAttribute('data-lat'));
+    var lng = parseFloat(container.getAttribute('data-lng'));
+    var zoom = parseInt(container.getAttribute('data-zoom')) || 14;
+    var markersData = [];
+    try {
+      markersData = JSON.parse(container.getAttribute('data-markers') || '[]');
+    } catch(e) { markersData = []; }
+
+    var map = L.map(container, { scrollWheelZoom: false }).setView([lat, lng], zoom);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap',
+      maxZoom: 19
+    }).addTo(map);
+
+    var hotelIcon = L.divIcon({
+      className: 'hotel-marker',
+      html: '<div style="background:#ff6b35;width:28px;height:28px;border-radius:50%;border:2px solid white;box-shadow:0 2px 4px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:14px;">🏨</div>',
+      iconSize: [28, 28],
+      iconAnchor: [14, 14]
+    });
+
+    var metroIcon = L.divIcon({
+      className: 'metro-marker',
+      html: '<div style="background:#00b894;width:24px;height:24px;border-radius:50%;border:2px solid white;box-shadow:0 2px 4px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;">🚇</div>',
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
+    });
+
+    var defaultIcon = L.divIcon({
+      className: 'default-marker',
+      html: '<div style="background:#0984e3;width:18px;height:18px;border-radius:50%;border:2px solid white;box-shadow:0 2px 3px rgba(0,0,0,0.2);"></div>',
+      iconSize: [18, 18],
+      iconAnchor: [9, 9]
+    });
+
+    function getIcon(name) {
+      if (name.includes('🏨')) return hotelIcon;
+      if (name.includes('🚇')) return metroIcon;
+      return defaultIcon;
+    }
+
+    markersData.forEach(function(m) {
+      var icon = getIcon(m.name);
+      var marker = L.marker([m.lat, m.lng], {icon: icon}).addTo(map);
+      marker.bindPopup('<strong>' + m.name + '</strong>');
+    });
+
+    if (markersData.length > 0) {
+      var group = L.featureGroup(
+        markersData.map(function(m) {
+          return L.marker([m.lat, m.lng], {icon: getIcon(m.name)});
+        })
+      );
+      map.fitBounds(group.getBounds().pad(0.2));
+    }
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+# 排除个人文件，只保留旅游攻略
+backtest_result.json
+create_housing_excel.js
+nasdaq_backtest.js
+package.json
+package-lock.json
+node_modules/
+.browsers/
+.npm-cache/
+
+# 排除其他文档和数据
+近三月房价数据统计.xlsx
+旅游攻略-chatgpt.docx
+~$*.docx
+
+# 排除旧版攻略文件
+马来西亚泰国旅游攻略.html
+马来西亚泰国旅游攻略-v2.html
+马来西亚泰国旅游攻略-v3.html
