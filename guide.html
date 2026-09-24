@@ -1657,20 +1657,7 @@ document.addEventListener('DOMContentLoaded', function() {
     lastScrollY = currentScrollY;
   }, { passive: true });
   
-  // 每个 day 对应的城市（用于跳转搜索时附加城市限定，避免重名）
-  var cityByDay = {
-    'day1': 'Kuala Lumpur',
-    'day2': 'Kuala Lumpur',
-    'day3': 'Penang',
-    'day4': 'Penang',
-    'day5': 'Bangkok',
-    'day6': 'Bangkok',
-    'day7': 'Ayutthaya',
-    'day8': 'Bangkok',
-    'day9': 'Bangkok'
-  };
-
-  // 特殊地点的精确英文搜索名（机场/火车站/码头等，用英文更准确）
+  // 特殊地点的精确英文搜索名（机场/火车站/码头/地铁等，用英文更准确）
   var searchOverride = {
     '✈️ 吉隆坡国际机场 KLIA': 'Kuala Lumpur International Airport',
     '✈️ 槟城机场 PEN': 'Penang International Airport',
@@ -1774,8 +1761,8 @@ document.addEventListener('DOMContentLoaded', function() {
       var marker = L.marker([m.lat, m.lng], {icon: icon}).addTo(map);
       // 去掉名称前面的emoji前缀，得到纯文本名称
       var cleanName = m.name.replace('🏨','').replace('🚇','').replace('📍','').replace('✈️','').replace('🚉','').replace('⛴️','').trim();
-      // 生成精确搜索名：特殊地点用英文名，其他用"名称+城市"避免重名
-      var searchName = searchOverride[m.name] || (cleanName + ' ' + (cityByDay[dayId] || ''));
+      // 生成搜索名：机场/火车站/地铁等特殊地点用精确英文名，其他直接用名称
+      var searchName = searchOverride[m.name] || cleanName;
       var gmapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(searchName);
       var amapsUrl = 'https://maps.apple.com/?q=' + encodeURIComponent(searchName);
       var popupHtml = '<strong>' + m.name + '</strong><br>' +
