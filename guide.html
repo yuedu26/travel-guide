@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -741,7 +741,13 @@ details .detail-content { padding: 12px; }
       </ul>
     </li>
     <li><strong>预订大城一日游</strong>：在Klook App预订10/3的团（含酒店接送+导游+游船），约¥150-300</li>
-    <li><strong>换现金</strong>：银行换少量马币RM500 + 泰铢3000（不够到当地ATM取）</li>
+    <li><strong>换现金</strong>：建议提前银行换少量马币RM500 + 泰铢3000应急；没换的话：
+      <ul style="margin-top:6px;">
+        <li>✈️ <strong>机场换</strong>：汇率最差，只换少量应急（够打车/吃饭即可）；吉隆坡机场取完行李右转柱子下有ATM，黄色 Maybank 汇率较好，单次最多取1000马币</li>
+        <li>💰 <strong>机场ATM取现</strong>：银联卡直接取，比机场换汇划算；马来西亚 Maybank ATM 手续费约RM10/次</li>
+        <li>🏙️ <strong>市区换（最划算）</strong>：曼谷找 <strong>SuperRich</strong>（绿色/橙色，汇率最好）；吉隆坡市区换钱所（汇率比机场好）；或直接ATM取现</li>
+      </ul>
+    </li>
   </ul>
   
   <h4>🟡 出发前1周</h4>
@@ -1743,13 +1749,7 @@ document.addEventListener('DOMContentLoaded', function() {
       label.appendChild(checkbox);
       label.appendChild(span);
       li.insertBefore(label, nestedUl);
-      // 子项也加 checkbox
-      nestedUl.querySelectorAll('li').forEach(function(sub) {
-        if (!sub.querySelector('ul')) {
-          var t = sub.innerHTML;
-          sub.innerHTML = '<label class="check-item"><input type="checkbox" class="big-check"><span>' + t + '</span></label>';
-        }
-      });
+      // 子项不加 checkbox（保持普通列表，作为操作步骤说明）
     } else {
       var text = li.innerHTML;
       li.innerHTML = '<label class="check-item"><input type="checkbox" class="big-check"><span>' + text + '</span></label>';
