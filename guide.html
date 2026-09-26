@@ -1411,7 +1411,7 @@ details .detail-content { padding: 12px; }
   <p><span class="tag tag-th">🇹🇭 曼谷周边</span> 🏛️ Ayutthaya世界遗产</p>
 
   <div class="map-container">
-    <div class="leaflet-map" data-lat="14.3530" data-lng="100.5600" data-zoom="14" data-markers='[{"lat":13.7348,"lng":100.5605,"name":"🏨 NH Bangkok Asoke"},{"lat":14.3569,"lng":100.5675,"name":"📍 玛哈泰寺（树抱佛头）"},{"lat":14.3558,"lng":100.5583,"name":"📍 帕喜善佩寺 Wat Phra Si Sanphet"},{"lat":14.3430,"lng":100.5410,"name":"📍 柴瓦塔那兰寺 Wat Chaiwatthanaram"},{"lat":14.3570,"lng":100.5675,"name":"🍽️ Pa Lek船面"},{"lat":14.3550,"lng":100.5780,"name":"🚉 大城火车站 Ayutthaya"}]'></div>
+    <div class="leaflet-map" data-lat="14.3530" data-lng="100.5600" data-zoom="14" data-markers='[{"lat":13.7348,"lng":100.5605,"name":"🏨 NH Bangkok Asoke"},{"lat":13.8060,"lng":100.5410,"name":"🚉 Krung Thep Aphiwat站（曼谷主出发站）"},{"lat":13.7380,"lng":100.5170,"name":"🚉 Hua Lamphong站（曼谷备选站）"},{"lat":14.3569,"lng":100.5675,"name":"📍 玛哈泰寺（树抱佛头）"},{"lat":14.3558,"lng":100.5583,"name":"📍 帕喜善佩寺 Wat Phra Si Sanphet"},{"lat":14.3430,"lng":100.5410,"name":"📍 柴瓦塔那兰寺 Wat Chaiwatthanaram"},{"lat":14.3570,"lng":100.5675,"name":"🍽️ Pa Lek船面"},{"lat":14.3550,"lng":100.5780,"name":"🚉 大城火车站 Ayutthaya"}]'></div>
   </div>
   <div class="map-links">
     <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Ayutthaya+Historical+Park" target="_blank">📍 Google地图</a>
@@ -1429,12 +1429,12 @@ details .detail-content { padding: 12px; }
   <div class="timeline">
     <div class="timeline-item">
       <div class="timeline-time">07:00-08:00</div>
-      <p>🚇 酒店出发 → MRT 到 Bang Sue（Krung Thep Aphiwat 站）</p>
+      <p>🚇 酒店出发 → MRT 到 Bang Sue（<span class="place-click" data-place="🚉 Krung Thep Aphiwat站（曼谷主出发站）">Krung Thep Aphiwat 站</span>）</p>
       <p style="font-size:0.85em; color:var(--text-light);">Asok MRT 直达 Bang Sue 站，约30分钟</p>
     </div>
     <div class="timeline-item">
       <div class="timeline-time">08:00-09:00</div>
-      <p>🚆 火车 → 大城 Ayutthaya</p>
+      <p>🚆 火车 → <span class="place-click" data-place="🚉 大城火车站 Ayutthaya">大城 Ayutthaya</span></p>
       <p style="font-size:0.85em; color:var(--text-light);">约1小时，20泰铢起，沿途田园风光</p>
     </div>
     <div class="timeline-item">
@@ -1823,7 +1823,10 @@ document.addEventListener('DOMContentLoaded', function() {
     '🚇 BTS Asok站': 'Asok BTS Station Bangkok',
     '🚇 MRT Sukhumvit站': 'Sukhumvit MRT Station Bangkok',
     '🚇 BTS Mo Chit站': 'Mo Chit BTS Station Bangkok',
-    '🚇 BTS Siam站': 'Siam BTS Station Bangkok'
+    '🚇 BTS Siam站': 'Siam BTS Station Bangkok',
+    '🚉 Krung Thep Aphiwat站（曼谷主出发站）': 'Krung Thep Aphiwat Central Terminal Bangkok',
+    '🚉 Hua Lamphong站（曼谷备选站）': 'Hua Lamphong Railway Station Bangkok',
+    '🚉 大城火车站 Ayutthaya': 'Ayutthaya Railway Station'
   };
 
   // 地图初始化
